@@ -15,7 +15,7 @@ import priority_queue
 
 def test_main():
     """
-    Files should accept
+    Tests if the classes and functions correctly accept the data that is entered.
     """
 
     q = priority_queue.MyPriorityQueue()
@@ -33,7 +33,10 @@ def test_main():
     q.put((3, 2, 5))
     q.put((2, 2, 7))
     q.put((2, 1, 5))
-    print("Ordered by second and third element test. Below should be: ('ula 7', 1, 2) ('delta 70', 1, 3) (2, 1, 5) (3, 2, 5) (2, 2, 7)")
+    q.put(('ula 80', 1, 5))
+    q.put((2, 1, 5))
+    print("Ordered by second and third element test. Below should be: ('ula 7', 1, 2), ('delta 70', 1, 3), (2, 1, 5), "
+          "('ula 80', 1, 5), (2, 1, 5), (3, 2, 5), (2, 2, 7)")
     while not q.empty():
         print(q.get())
     test3 = q.empty()
