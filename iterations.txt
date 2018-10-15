@@ -1,0 +1,13 @@
+In the first iteration I'm going to complete my priority queue and file_read function. The file_read function 
+will take in files, read each section that's separated by a comma as a string, strip them of unneeded spaces and commas, 
+and store each string into a list. The priority queue stores each addition as a four-tuple for custom ordering. It uses 
+the second element of the entered item data as the highest priority and the third element of the item data as the next highest 
+priority. It also avoids conflicts with pilots that have the same scheduling time requests by adding an additional tuple that 
+records the order of request.
+ 
+For the second iteration, I'm going to complete the class for the airstrip_schedule module.
+This module will keep track of the information needed to schedule the airstrip resource and 
+print a string containing the status of the queue as time moves along. I'm also going to complete the 
+allen_take_off_time module. Besides the file_read function, this module will also help calculate the 
+actual start time and actual end times of the planes and print out a listing of the actual take off 
+times.
