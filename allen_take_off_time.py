@@ -2,8 +2,8 @@
 allen_take_off_time.py
 author: Marissa Allen
 
-allen_take_off_time is a program that takes in a file pathname the user submits from the terminal, reads the file lines, stores
-the lines in a list as strings split by commas, and passes those into another function/class to be...
+allen_take_off_time is a program that takes in a file pathname the user submits from the terminal, reads the file lines,
+stores the lines into a list, and will pass those into a priority queue to be ordered.
 """
 
 import sys
@@ -13,9 +13,10 @@ import priority_queue
 def file_read(user_file):
     """
     Reads the file for the airplane requests. When a text file is submitted by the user the program tries to open
-    the file. A file object is created when the file successfully opens...
-    If the file fails to open, a message will print to the terminal, saying that the program could not read the file
-    and ask the user to submit another file.
+    the file. A file object is created when the file successfully opens, the file content is split by commas, and stored
+    in a list with each section as a string element to be passed into a function in the future and ordered by a priority
+    queue. If the file fails to open, a message will print to the terminal, saying that the program could not read the
+    file and ask the user to submit another file.
 
     :param user_file: contains a command line argument file pathname that the user submitted.
     :return: Returns the list to the function call.
