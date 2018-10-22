@@ -32,10 +32,9 @@ def file_read(user_file):
     readlines = file.read().splitlines()                        # Reads content of the text file and returns a list with all the lines in a string.
     file.close()                                                # Flushes unwritten information from the file and closes it.
     schedule_list = [line.split(", ") for line in readlines]    # Seperates strings into a list containing one line per element.
-    schedule_list = class_requests(schedule_list)
-    print(sorted_requests(schedule_list))
+    plane_requests(schedule_list)
 
-"""
+
 def convert_list(value):
     """
 
@@ -46,7 +45,7 @@ def convert_list(value):
         return int(value)
     except (ValueError, TypeError):
         return value
-"""
+
 
 def class_requests(new_list2):
     """
@@ -99,7 +98,30 @@ def sorted_requests(new_list):
     #a = class_requests(list2)
     #print(a)
 
+def plane_requests(schedule_list):
+    """
 
+    :param schedule_list:
+    """
+
+    print("File list: ", schedule_list)
+    request_list = schedule_list
+    request_list = class_requests(request_list)  # Passes in plane requests to be loaded into the class.
+    print("unordered class: ", request_list)
+    request_list = sorted_requests(request_list)    # Passes in plane requests to PQ to be sorted.
+    ordered_list = class_requests(request_list)     # Passes sorted requests back into the class so the class is in PQ order.
+    print("Ordered class:", ordered_list)
+
+    print("Before actual start change: ", ordered_list[0].actual_start)
+    ordered_list[0].actual_start = ordered_list[0].requested_start # gonna give it its request time cause it's at the front of queue
+    ordered_list[0].actual_end = (int(ordered_list[0].requested_duration)-1)
+    print("After actual start change: ", ordered_list[0].actual_start)
+    print("Before change: ", ordered_list)
+    for i in range(1, len(ordered_list)):   # from 1 to length of request
+        ordered_list[i].actual_start = int(ordered_list[i-1].actual_start) + int(ordered_list[i-1].requested_duration)
+        print("After request: ", ordered_list)
+        ordered_list[i].actual_end = int(ordered_list[i].actual_start) + (int(ordered_list[i].requested_duration)-1)
+        print("After duration: ", ordered_list)
 
 
 def main(user_file):
