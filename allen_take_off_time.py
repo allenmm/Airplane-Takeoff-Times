@@ -32,8 +32,21 @@ def file_read(user_file):
     readlines = file.read().splitlines()                        # Reads content of the text file and returns a list with all the lines in a string.
     file.close()                                                # Flushes unwritten information from the file and closes it.
     schedule_list = [line.split(", ") for line in readlines]    # Seperates strings into a list containing one line per element.
-    print(class_requests(schedule_list))
+    schedule_list = class_requests(schedule_list)
+    print(sorted_requests(schedule_list))
 
+"""
+def convert_list(value):
+    """
+
+    :param value:
+    :return:
+    """
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return value
+"""
 
 def class_requests(new_list2):
     """
@@ -53,6 +66,40 @@ def class_requests(new_list2):
         new_list.append(airstrip_schedule.AirstripSchedule(plane_id=new_list2[0], submission_time=new_list2[1],
                                                            requested_start=new_list2[2], requested_duration=new_list2[3]))
     return new_list
+
+
+def sorted_requests(new_list):
+    """
+
+    :param new_list:
+    :return:
+    """
+
+    list2 = []
+
+    pq = priority_queue.MyPriorityQueue()
+
+    for i in new_list:
+        if int(i.requested_duration) < 1:
+            print("\nYour requested duration time,", i.requested_duration, "cannot be smaller than 1.")
+            print("Planes must be on the runway for at least one time slot")
+            print("The error is in the section:", "[", i.plane_id, ",", i.submission_time, ",", i.requested_start,
+                  ",", i.requested_duration, "]"
+                  "\nPlease resubmit the file after fixing the error")
+            sys.exit()
+        else:
+            pq.enqueue(i.plane_id, i.submission_time, i.requested_start, i.requested_duration)
+    print("Before PQ: ", pq.queue)
+    while not pq.empty():               # sorts the list by their submission and requested start time.
+        list2.append(pq.dequeue())      # now it's put into a list.
+    print("After PQ:", list2)
+    return list2
+    #new_list2 = [[convert_list(x) for x in i] for i in list2]  # Changes numerical values from strings to integers.
+    #print(new_list2)
+    #a = class_requests(list2)
+    #print(a)
+
+
 
 
 def main(user_file):
