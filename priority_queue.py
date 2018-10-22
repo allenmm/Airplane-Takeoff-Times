@@ -20,7 +20,7 @@ class MyPriorityQueue(PriorityQueue):
         PriorityQueue.__init__(self)
         self.increase = 0                # Initialize instance variable to zero.
 
-    def put(self, item):
+    def enqueue(self, item, high_priority, next_priority, duration):
         """
         Puts an item into the queue as a four-tuple. The four-tuple will be sorted by priority by
         using the tuple item entry data that is submitted. When an item is put in, the second and third
@@ -30,11 +30,11 @@ class MyPriorityQueue(PriorityQueue):
         super() represents the parent class PriorityQueue.
         :param item: the item entered that is put into the tuple.
         """
-        super().put((self.get_priority(item), self.get_nextpriority(item), self.increase, item))
+        super().put((high_priority, next_priority, self.increase, item, high_priority, next_priority, duration))
         self.increase += 1                 # Adds a one onto the previous queue item for use in the current item.
 
 
-    def get(self):
+    def dequeue(self):
         """
         Removes the fourth element in the tuple and returns it to show what
         is the current highest priority item. If there are no elements left in the tuples
@@ -42,22 +42,10 @@ class MyPriorityQueue(PriorityQueue):
         :return: removes and returns the fourth element in the tuple.
         """
         if len(self.queue) > 0:
-            return super().get()[3]
-        return ("The queue is empty!")
+            return super().get()[3:7]
+        return "The queue is empty"       # Could also say None
 
-
-    def get_priority(self, item):
-        """
-        Sets the second element of the item to be the highest order priority.
-        :param item: the item entered that is put into the tuple.
-        :return: returns index to the first position of the four-tuple to establish priority.
-        """
-        return item[1]
-
-    def get_nextpriority(self, item):
-        """
-        Sets the third element of the item to be the next highest order priority.
-        :param item: the item entered that is put into the tuple.
-        :return: Returns index to the second position in the four-tuple to establish priority.
-        """
-        return item[2]
+    def peek(self):
+        if len(self.queue) > 0:
+            return self.queue[0][3:7]                   # Could also say None
+        return "Cannot peek when queue is empty"
