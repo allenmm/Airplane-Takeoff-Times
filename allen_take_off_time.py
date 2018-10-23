@@ -15,8 +15,7 @@ def file_read(user_file):
     """
     Reads the file for the airplane requests. When a text file is submitted by the user the program tries to open
     the file. A file object is created when the file successfully opens, the file content is split by commas, and stored
-    in a list with each section as a string element to be passed into a function in the future and ordered by a priority
-    queue. If the file fails to open, a message will print to the terminal, saying that the program could not read the
+    in a list with each section as a string element to be passed into the plane_requests function. If the file fails to open, a message will print to the terminal, saying that the program could not read the
     file and ask the user to submit another file.
 
     :param user_file: contains a command line argument file pathname that the user submitted.
@@ -33,18 +32,6 @@ def file_read(user_file):
     file.close()                                                # Flushes unwritten information from the file and closes it.
     schedule_list = [line.split(", ") for line in readlines]    # Seperates strings into a list containing one line per element.
     plane_requests(schedule_list)
-
-
-def convert_list(value):
-    """
-
-    :param value:
-    :return:
-    """
-    try:
-        return int(value)
-    except (ValueError, TypeError):
-        return value
 
 
 def class_requests(new_list2):
@@ -93,10 +80,7 @@ def sorted_requests(new_list):
         list2.append(pq.dequeue())      # now it's put into a list.
     print("After PQ:", list2)
     return list2
-    #new_list2 = [[convert_list(x) for x in i] for i in list2]  # Changes numerical values from strings to integers.
-    #print(new_list2)
-    #a = class_requests(list2)
-    #print(a)
+
 
 def plane_requests(schedule_list):
     """
@@ -109,7 +93,7 @@ def plane_requests(schedule_list):
     request_list = class_requests(request_list)  # Passes in plane requests to be loaded into the class.
     print("unordered class: ", request_list)
     request_list = sorted_requests(request_list)    # Passes in plane requests to PQ to be sorted.
-    ordered_list = class_requests(request_list)     # Passes sorted requests back into the class so the class is in PQ order.
+    ordered_list = class_requests(request_list)
     print("Ordered class:", ordered_list)
 
     print("Before actual start change: ", ordered_list[0].actual_start)
@@ -123,14 +107,31 @@ def plane_requests(schedule_list):
         ordered_list[i].actual_end = int(ordered_list[i].actual_start) + (int(ordered_list[i].requested_duration)-1)
         print("After duration: ", ordered_list)
 
+    print(final_times(ordered_list))    # or print from main
+
+
+def final_times(ordered_list):
+
+    values = ""     # Initializing return value
+    for i in range(len(ordered_list)):
+        plane_id = ordered_list[i].plane_id
+        actual_start = ordered_list[i].actual_start
+        actual_end = ordered_list[i].actual_end
+        if i == len(ordered_list)-1:
+            values += str(plane_id) + " (" + str(actual_start) + "-" + str(actual_end) + ")"
+        else:
+            values += str(plane_id) + " (" + str(actual_start) + "-" + str(actual_end) + "), "
+    return values
+
 
 def main(user_file):
     """
-    Passes the file pathname to the file_read function and stores its return value for future use.
+    Takes in a file pathname and passes it to the file_read function to be used in the program.
     :param user_file: contains a command line argument file pathname that the user submitted.
     """
 
     file_read(user_file)
+
 
 if __name__ == '__main__':  # Runs if we're running the program directly from this file.
     main(sys.argv[1])       # Calls main function, passes in user text file.
