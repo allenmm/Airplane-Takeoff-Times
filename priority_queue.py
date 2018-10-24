@@ -26,7 +26,7 @@ class MyPriorityQueue(PriorityQueue):
         requested.
         """
         PriorityQueue.__init__(self)
-        self.increase = 0                # Initialize instance variable to zero.
+        self.increase = 0          # Initialize instance variable to zero.
 
     def enqueue(self, req_id, high_priority, next_priority, duration):
         """
