@@ -203,17 +203,19 @@ def plane_requests(schedule_list):
                                                 i].actual_start)-1)
         ordered_list[i].actual_end = (int(ordered_list[i].actual_end)-1)
 
-    print(ordered_list)
     list_length = len(ordered_list)   # Length of the list.
     # Calculates the number of time slots by getting the last list value's
     # actual end time.
     time_slot_count = ordered_list[list_length-1].actual_end
-    time = 0
-    while time <= time_slot_count:
-        print(print_format(ordered_list, time), "\n")
-        time += 1
+
+    # From time to the actual end time, does the actual printing of the
+    # queue status. Passes in the time value to keep track of the time
+    # slots in the queue.
+    for time in range(time_slot_count):
+        print("\n", print_format(ordered_list, time))
+
     # Prints out the formatted string of actual take off times for planes.
-    #print(final_times(ordered_list))   #uncomment when done with other.
+    print("\n", final_times(ordered_list))
 
 
 def print_format(ordered_list, time):
@@ -222,7 +224,15 @@ def print_format(ordered_list, time):
     the time slots. And formats them to display the plane identifier and
     actual start time values from the list of class objects along with
     the time slot values, to return a string of values displaying the
-    queue status.
+    queue status. For the if statement, if the time slot is less than the
+    actual start time and the time slot is greater than or equal to the
+    request submission time, a string is returned stating that the plane
+    is scheduled at that time slot. This line will be repeated up until
+    the actual start time value. For the else statement, if the time
+    slot is greater than or equal to the actual start time and the time
+    slot is less than the actual end time, a string is returned stating
+    that the plane starts at that time slot. This line will be repeated
+    up until the actual end time value.
 
     :param ordered_list: A list of ordered class objects to pull the
     status of the queue from.
@@ -231,42 +241,39 @@ def print_format(ordered_list, time):
     :return: A list of formatted string values containing the queue status.
     """
 
+    # Template for the queue.
+    value = "At time " + str(time) + " the queue would look like: "
+
     for i in range(len(ordered_list)):
-        value = "At time " + str(time) + " the queue would look like: "
+
+        # Stores the plane identifier of each class object in plane_id.
         plane_id = ordered_list[i].plane_id
+        # Stores the request submission time of each class object in
+        # submission_time.
         submission_time = ordered_list[i].submission_time
+        # Stores the actual start time of each class object in
+        # actual_start.
         actual_start = ordered_list[i].actual_start
+        # Stores the actual end time of each class object in actual_end.
         actual_end = ordered_list[i].actual_end
 
-
-        # Checks to see if the first value is going to start at time slot
-        # 0 or be scheduled for later. The first value is always only
-        # going to have one because there can only be one plane on the
-        # runway at a time.
-        if time == 0:
-            if time >= int(actual_start):
-                value += str(plane_id) + " (started at " + \
-                             str(actual_start) + ")"
-            else:
+        # Appends if the class object is scheduled at the time from the
+        # submission up to the actual start time.
+        if time < int(actual_start) and time >= int(submission_time):
                 value += str(plane_id) + " (scheduled for " + \
-                             str(actual_start) + ")"
-            return value
-        if time >= int(actual_start) & time >= int(submission_time) & \
-                time == 3:
-                value += str(plane_id) + " (started at " + \
                              str(actual_start) \
                              + "), "
 
-        if time < int(actual_end):
-            value += str(plane_id) + " (scheduled at " + \
+        else:
+            # Appends if the class object starts at the time from the
+            # actual start time up to the submission time.
+            if time >= int(actual_start) and time < int(actual_end):
+                value += str(plane_id) + " (started at " + \
                      str(actual_start) \
                      + "), "
-            return value
-        else:
-            value += str(plane_id) + " (scheduled for " + \
-                             str(actual_start) + "), "
 
     return value
+
 
 def final_times(ordered_list):
     """
