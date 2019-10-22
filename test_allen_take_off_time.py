@@ -23,12 +23,12 @@ def test_main():
     q.enqueue(2, 2, 5, 0)
     q.enqueue(2, 1, 5, 0)
     test1 = q.empty()
-    print("Should be false: ", test1)
+    print("\nEmpty queue test should be false:", test1)
     print("\nOrdered by second element test. "
           "Below should be (2, 1, 5, 0) (2, 2, 5, 0) (1, 5, 5, 0):")
     print(q.dequeue(), q.dequeue(), q.dequeue(), "\n")
     test2 = q.empty()
-    print("Should be true: ", test2)
+    print("Empty queue test should be true:", test2)
     q.enqueue('delta 70', 1, 3, 0)
     q.enqueue('ual 7', 1, 2, 0)
     q.enqueue(3, 2, 5, 0)
@@ -44,7 +44,7 @@ def test_main():
     while not q.empty():
         print(q.dequeue())
     test3 = q.empty()
-    print("\nShould be true: ", test3)
+    print("\nEmpty queue test should be true:", test3)
     print("\nTest for if dequeue() is called after queue is empty. "
           "\nShould say 'The queue is empty': ", q.dequeue())
     print("\nTest for if peek() is called after queue is empty. "
